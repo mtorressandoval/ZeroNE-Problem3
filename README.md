@@ -1,4 +1,4 @@
-# ZeroNE Problem 4. Quantum Open Source Foundation
+# ZeroNE Problem 3. Quantum Open Source Foundation
 The file ZeroNE.py contains all the relevant functions.
 
 
