@@ -72,7 +72,7 @@ class ZeroNE:
         '''Exponential Interpolation'''
         y = self.ExpectationValues(Circuit, Scale_Factors, Operator, Simulator)
         x = Scale_Factors
-        popt, pcov = curve_fit(self.exponential_func, x, y,maxfev=1000)
+        popt, pcov = curve_fit(self.exponential_func, x, y,maxfev=1200)
         return self.exponential_func(0, *popt)
 
 
