@@ -15,7 +15,7 @@ class ZeroNE:
                         cargs))
         return qc
     def adapt_positions(self,original_positions, inserted_index):
-        '''Return a list of the positions of the operator after the folding at the position inserted_index'''
+        '''Readapts the positions of the original operators original_positions after the folding at the positions inserted_index'''
         return [pos + 2 if pos > inserted_index else pos for pos in original_positions]
     def fold_random(self, 
                     qc: QuantumCircuit,
@@ -45,6 +45,7 @@ class ZeroNE:
                           Scale_Factors:list,
                           Operator,
                           Simulator):
+        '''Generates the expecation values using a circuit, a list of scale factors, an operator and a simulator'''
         Expectation_Values = np.array([Simulator.run(X, Operator).result().values[0] for 
                                        X in [self.fold_random(Circuit, Y)
                                             for Y in Scale_Factors
@@ -57,18 +58,22 @@ class ZeroNE:
                           Simulator,
                           degree
                           ):
+
+        '''Polynomial Interpolation'''
         y=self.ExpectationValues(Circuit,
                           Scale_Factors,
                           Operator,
                           Simulator)
         x=Scale_Factors
         return np.polyfit(x, y, degree)[1]
+    def exponential_func(self, x, a, b, c):
+        return a * np.exp(b * x) + c
     def ZeroNEExponential(self, Circuit, Scale_Factors, Operator, Simulator):
+        '''Exponential Interpolation'''
         y = self.ExpectationValues(Circuit, Scale_Factors, Operator, Simulator)
         x = Scale_Factors
         popt, pcov = curve_fit(self.exponential_func, x, y,maxfev=1000)
         return self.exponential_func(0, *popt)
 
-    def exponential_func(self, x, a, b, c):
-        return a * np.exp(b * x) + c
+
         
